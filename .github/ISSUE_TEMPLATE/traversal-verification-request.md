@@ -1,7 +1,7 @@
 ---
 name: "\U00002728 Traversal Verification Request"
-about: Submit IoK traversal for verification by Aadmin
-title: "[traversal-verification-request]"
+about: Submit IoK traversal for verification by Admin
+title: "[INSERT_TRAVERSAL_STATE_HASH_HERE]"
 labels: traversal-verification-request
 assignees: ''
 
@@ -9,6 +9,6 @@ assignees: ''
 
 # Information
 
-TRAVERSAL_STATE_HASH=insert_hash_here
+Verification for IoK traversal state hash above.
 
-<!--  Provide your IoK traversal state hash here for verification; note the syntax -->
+<!--  Provide your IoK traversal state hash in the title for verification, note the label -->

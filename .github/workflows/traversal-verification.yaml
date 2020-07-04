@@ -29,7 +29,7 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number}}
           body: |
-            Pinging admin for verification on issue ${{ github.event.issue.number }}
+            Pinging admin for verification on issue ${{ github.event.issue.number }}, corresponding with ${{ github.event.issue.title }}
             - hang on tight :sparkles:
             - we'll be with you shortly
           reactions: '+1'
