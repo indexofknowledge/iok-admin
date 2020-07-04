@@ -2,7 +2,7 @@
 name: "\U00002728 Traversal Verification Request"
 about: Submit IoK traversal for verification by Aadmin
 title: "[traversal-verification-request]"
-labels: 'traversal-verification-request'
+labels: traversal-verification-request
 assignees: ''
 
 ---
