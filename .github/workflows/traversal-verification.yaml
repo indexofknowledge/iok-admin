@@ -21,8 +21,15 @@ jobs:
           echo "Issue: ${{ github.event.issue.labels.*.name }}"
       - name: Ping if requested
         if: contains(github.event.issue.labels.*.name, 'traversal-verification-request')
-        run: |
-          echo "Pinging admin for verification..."
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.id }}
+          body: |
+            Pinging admin for verification on issue ${{ github.event.issue.id }}
+            Number: ${{ github.event.issue.issue_number }}
+            - hang on tight :sparkles:
+            - we'll be with you shortly
+          reactions: '+1'
       - name: Exit
         run: |
           echo "Exit script"
