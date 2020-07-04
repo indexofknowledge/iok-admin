@@ -18,11 +18,18 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Describe the issue
         run: |
-          echo "Issue: ${{ github.event.issue.labels.*.name }}"
-      - name: Ping if requested
-        if: contains(github.event.issue.labels.*.name, 'traversal-verification-request')
+          echo "Issue: ${{ github.event.issue.number }}"
+      - name: Exit if incorrect issue label
+        if: "!contains(github.event.issue.labels.*.name, 'traversal-verification-request')"
         run: |
-          echo "Pinging admin for verification..."
-      - name: Exit
-        run: |
-          echo "Exit script"
+          echo '"traversal-verification-request" label not found'
+          exit 1
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v1.4.2
+        with:
+          issue-number: ${{ github.event.issue.number}}
+          body: |
+            Pinging admin for verification on issue ${{ github.event.issue.number }}
+            - hang on tight :sparkles:
+            - we'll be with you shortly
+          reactions: '+1'
