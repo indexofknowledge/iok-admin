@@ -1,0 +1,25 @@
+name: traversal-verification
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  notify-admin:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install pipenv
+        if: contains(github.event.issue.labels.*.name, 'traversal-verification-request')
+        run: |
+          echo "Pinging admin for verification..."
+      - name: Exit
+        run: |
+          echo "Exit script"
