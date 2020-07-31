@@ -36,6 +36,14 @@ jobs:
             - hang on tight :sparkles:
             - we'll be with you shortly
           reactions: "rocket"
+      - name: Create or Update Comment
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1.4.2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Oops! Failed to notify admin
+          reactions: "cry"
   execute-pass:
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
@@ -107,3 +115,11 @@ jobs:
             </pre>
             </details>
           reactions: "planet"
+      - name: Create or Update Comment
+        if: ${{ failure() }}
+        uses: peter-evans/create-or-update-comment@v1.4.2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Oops! Pass verification workflow failed
+          reactions: "cry"
