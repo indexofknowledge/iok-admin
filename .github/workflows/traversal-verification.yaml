@@ -66,13 +66,6 @@ jobs:
       - name: Issue sanity check
         run: |
           echo "Issue: ${{ github.event.issue.number }}"
-      - name: Install pipenv
-        run: |
-          pip install --upgrade pipenv
-      - name: Install dependencies
-        working-directory: iok/python
-        run: |
-          ./build.sh
       - name: Set up node
         working-directory: iok
         run: |
@@ -83,7 +76,15 @@ jobs:
           ./utils/iok.sh get_full_graph ${{ github.event.issue.title }} > graph.json
           cat graph.json
           graph=$(cat graph.json)
-          echo "::set-env name=GRAPH::${graph//$'\n'/'%0A'}"
+          echo "::set-env name=GRAPH::$graph"
+      - name: Sign IPFS object
+        working-directory: iok
+        run: |
+          echo '${{secrets.TRAVERSAL_VERIFYING_KEY}}' > priv.pem
+          echo '${{ env.GRAPH }}' > graph.json
+          openssl dgst -sha256 -sign priv.pem -out sig.sign graph.json
+          b64sig=$(cat sig.sign | base64)
+          echo "::set-env name=GRAPH_SIG::$b64sig"
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.2
         with:
@@ -92,6 +93,13 @@ jobs:
             <details open>
             <summary>IoK contents for ${{ github.event.issue.title }}</summary>
             <br>
+            Signature:
+            <pre>
+            <code>
+            ${{ env.GRAPH_SIG }}
+            </code>
+            </pre>
+            Graph contents
             <pre>
             <code>
             ${{ env.GRAPH }}
