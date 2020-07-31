@@ -99,7 +99,7 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             <details open>
-            <summary>IoK contents for ${{ github.event.issue.title }}</summary>
+            <summary>IoK contents for <a href="https://index-of-knowledge.web.app/ipfs?hash=${{ github.event.issue.title }}">${{ github.event.issue.title }}</a></summary>
             <br>
             Signature:
             <pre>
@@ -114,7 +114,7 @@ jobs:
             </code>
             </pre>
             </details>
-          reactions: "planet"
+          reactions: "hooray"
       - name: Create or Update Comment
         if: ${{ failure() }}
         uses: peter-evans/create-or-update-comment@v1.4.2
