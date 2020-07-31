@@ -30,12 +30,12 @@ jobs:
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v1.4.2
         with:
-          issue-number: ${{ github.event.issue.number}}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             Pinging admin for verification on issue ${{ github.event.issue.number }}, corresponding with ${{ github.event.issue.title }}
             - hang on tight :sparkles:
             - we'll be with you shortly
-          reactions: "+1"
+          reactions: "rocket"
   execute-pass:
     if: github.event_name == 'issue_comment'
     runs-on: ubuntu-latest
@@ -82,3 +82,20 @@ jobs:
         run: |
           ./utils/iok.sh get_full_graph ${{ github.event.issue.title }} > graph.json
           cat graph.json
+          graph=$(cat graph.json)
+          echo "::set-env name=GRAPH::${graph//$'\n'/'%0A'}"
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v1.4.2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            <details open>
+            <summary>IoK contents for ${{ github.event.issue.title }}</summary>
+            <br>
+            <pre>
+            <code>
+            ${{ env.GRAPH }}
+            </code>
+            </pre>
+            </details>
+          reactions: "planet"
